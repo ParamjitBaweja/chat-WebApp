@@ -21,12 +21,16 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection',(socket)=>{
     console.log('new websocket connection')
 
-    socket.emit('message',generateMessage('Welcome'))
-    //sends a welcome message to a user that joins
+    //join deals with a specific room
+    socket.on('join',({username,room})=>{
+        socket.join(room)
+        socket.emit('message',generateMessage('Welcome'))
+        //sends a welcome message to a user that joins
 
-    socket.broadcast.emit('message',generateMessage('A new user has joined'))
-    //sends a message to all clients, except the new client,
-    //that a new client has joined
+        socket.broadcast.to(room).emit('message',generateMessage(`${username} has joined`))
+        //sends a message to all clients, except the new client,
+        //that a new client has joined
+    })
 
     socket.on('sendMessage',(msg,callback)=>{
         const filter= new Filter()
