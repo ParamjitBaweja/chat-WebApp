@@ -4,8 +4,7 @@ const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 
-//Hellooooo\
-//device 2
+//Hello from the other side
 
 const app=express()
 const server = http.createServer(app)
